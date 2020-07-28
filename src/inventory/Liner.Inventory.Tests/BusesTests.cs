@@ -1,6 +1,7 @@
 ﻿using System;
 using Xunit;
 using FluentAssertions;
+using Liner.Inventory.Core;
 
 namespace Liner.Inventory.Tests
 {

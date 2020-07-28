@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Liner.Inventory\Liner.Inventory.csproj" />
+    <ProjectReference Include="..\Liner.Inventory.Core\Liner.Inventory.Core.csproj" />
   </ItemGroup>
 
 </Project>

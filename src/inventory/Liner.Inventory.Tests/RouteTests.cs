@@ -1,5 +1,6 @@
 ﻿using Xunit;
 using FluentAssertions;
+using Liner.Inventory.Core;
 
 namespace Liner.Inventory.Tests
 {
@@ -13,6 +14,17 @@ namespace Liner.Inventory.Tests
                 var route = new Route("Manila", "Laoag");
                 route.Origin.Should().Be("Manila");
                 route.Destination.Should().Be("Laoag");
+            }
+        }
+        
+        public class ToString_Should
+        {
+            [Fact]
+            public void Return_ReadableResult()
+            {
+                var route = new Route("Manila", "Laoag");
+
+                route.ToString().Should().Be("Manila-Laoag");
             }
         }
     }

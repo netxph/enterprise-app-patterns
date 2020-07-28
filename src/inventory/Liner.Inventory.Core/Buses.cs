@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 
-namespace Liner.Inventory
+namespace Liner.Inventory.Core
 {
     public class Buses : IEnumerable<Bus>
     {
@@ -41,7 +41,7 @@ namespace Liner.Inventory
 
         public Buses GetAvailable(Route route, DateTime schedule, int paxCount)
         {
-            var results = _buses.Where(b => 
+            var results = _buses.Where(b =>
                 b.Route.Equals(route) &&
                 b.Schedule.Date.Equals(schedule.Date) &&
                 b.Slots >= paxCount);

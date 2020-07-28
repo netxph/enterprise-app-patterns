@@ -1,4 +1,5 @@
 ﻿using System;
+using Liner.Inventory.Core;
 using Moq;
 
 namespace Liner.Inventory.Tests

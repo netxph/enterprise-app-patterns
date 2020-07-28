@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Liner.Inventory
+namespace Liner.Inventory.Core
 {
-    public class InventoryService
+    public class InventoryService : IInventoryService
     {
         private readonly IInventoryRepository _repository;
 

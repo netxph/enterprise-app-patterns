@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Liner.Inventory
+namespace Liner.Inventory.Core
 {
     public interface IInventoryRepository
     {

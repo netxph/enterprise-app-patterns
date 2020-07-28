@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Liner.Inventory
+namespace Liner.Inventory.Core
 {
     public class Route
     {
@@ -10,14 +10,14 @@ namespace Liner.Inventory
 
         public Route(string origin, string destination)
         {
-            if(string.IsNullOrEmpty(nameof(origin)))
+            if (string.IsNullOrEmpty(nameof(origin)))
             {
                 throw new ArgumentNullException(nameof(origin));
             }
 
             Origin = origin;
 
-            if(string.IsNullOrEmpty(nameof(destination)))
+            if (string.IsNullOrEmpty(nameof(destination)))
             {
                 throw new ArgumentNullException(nameof(destination));
             }
@@ -39,6 +39,11 @@ namespace Liner.Inventory
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Origin);
             hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Destination);
             return hashCode;
+        }
+
+        public override string ToString()
+        {
+            return $"{Origin}-{Destination}";
         }
     }
 }
