@@ -3,8 +3,9 @@ using Xunit;
 
 namespace Liner.Ticketing.Tests
 {
-    public class UnitTest1
+    public class TicketService
     {
+        
         [Fact]
         public void Test1()
         {
