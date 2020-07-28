@@ -39,11 +39,12 @@ namespace Liner.Inventory
             _buses.Add(bus);
         }
 
-        public Buses GetAvailable(Route route, DateTime schedule)
+        public Buses GetAvailable(Route route, DateTime schedule, int paxCount)
         {
             var results = _buses.Where(b => 
                 b.Route.Equals(route) &&
-                b.Schedule.Date.Equals(schedule.Date));
+                b.Schedule.Date.Equals(schedule.Date) &&
+                b.Slots >= paxCount);
 
             return new Buses(results);
         }

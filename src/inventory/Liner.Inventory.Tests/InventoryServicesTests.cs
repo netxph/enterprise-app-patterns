@@ -55,6 +55,23 @@ namespace Liner.Inventory.Tests
                 result.Should().BeEmpty();
             }
 
+            [Theory]
+            [InlineData(2)]
+            [InlineData(3)]
+            public void ReturnsNone_WhenNoAvailableSlot(int paxCount)
+            {
+                InventoryService sut =
+                    new InventoryServiceTestDataBuilder()
+                        .UsingMock();
+
+                var result = sut.Search(
+                    route: new Route("Manila", "Laoag"),
+                    schedule: new DateTime(2020, 7, 31, 8, 0, 0),
+                    paxCount: paxCount);
+
+                result.Should().BeEmpty();
+            }
+
         }
 
     }

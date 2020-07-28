@@ -15,7 +15,8 @@ namespace Liner.Inventory.Tests
                 buses.Add(
                     new Bus(
                         new Route("Manila", "Laoag"),
-                        new DateTime(2020, 7, 31, 8, 0, 0)));
+                        new DateTime(2020, 7, 31, 8, 0, 0),
+                        1));
 
                 var repository = new Mock<IInventoryRepository>();
                 repository

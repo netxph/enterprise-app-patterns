@@ -9,15 +9,17 @@ namespace Liner.Inventory.Tests
         public class Init_Should
         {
             [Fact]
-            public void RequireRouteAndSchedule()
+            public void RequireParams()
             {
                 var bus = new Bus(
                     route: new Route("Manila", "Laoag"),
-                    schedule: new DateTime(2020, 7, 31, 8, 0, 0));
+                    schedule: new DateTime(2020, 7, 31, 8, 0, 0),
+                    1);
 
                 bus.Route.Origin.Should().Be("Manila");
                 bus.Route.Destination.Should().Be("Laoag");
                 bus.Schedule.Should().Be(new DateTime(2020, 7, 31, 8, 0, 0));
+                bus.Slots.Should().Be(1);
             }
         }
     }
