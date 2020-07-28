@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections;
+using System.Linq;
 
 namespace Liner.Inventory
 {
@@ -9,8 +10,13 @@ namespace Liner.Inventory
         private readonly List<Bus> _buses;
 
         public Buses()
+            : this(new List<Bus>())
         {
-            _buses = new List<Bus>();
+        }
+
+        public Buses(IEnumerable<Bus> buses)
+        {
+            _buses = new List<Bus>(buses);
         }
 
         public IEnumerator<Bus> GetEnumerator()
@@ -31,6 +37,15 @@ namespace Liner.Inventory
             }
 
             _buses.Add(bus);
+        }
+
+        public Buses GetAvailable(Route route, DateTime schedule)
+        {
+            var results = _buses.Where(b => 
+                b.Route.Equals(route) &&
+                b.Schedule.Date.Equals(schedule.Date));
+
+            return new Buses(results);
         }
     }
 }

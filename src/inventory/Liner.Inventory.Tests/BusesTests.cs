@@ -12,7 +12,10 @@ namespace Liner.Inventory.Tests
             public void BeSuccessful()
             {
                 var buses = new Buses();
-                buses.Add(new Bus(new Route("Manila", "Laoag")));
+                buses.Add(
+                    new Bus(
+                        new Route("Manila", "Laoag"),
+                        new DateTime(2020, 7, 31, 8, 0, 0)));
             }
 
             [Fact]
@@ -25,5 +28,42 @@ namespace Liner.Inventory.Tests
                 sut.Should().Throw<ArgumentNullException>();
             }
         }
+
+        public class GetAvailable_Should
+        {
+            
+            [Fact]
+            public void BeEmpty_WhenRouteNotMatch()
+            {
+                var buses = new Buses();
+                buses.Add(
+                    new Bus(
+                        new Route("Manila", "Laoag"),
+                        new DateTime(2020, 7, 31, 8, 0, 0)));
+
+                var sut = buses.GetAvailable(
+                    route: new Route("Laoag", "Manila"),
+                    schedule: new DateTime(2020, 7, 31, 8, 0, 0));
+
+                sut.Should().BeEmpty();
+            }
+
+            [Fact]
+            public void BeEmpty_WhenDateNotMatch()
+            {
+                var buses = new Buses();
+                buses.Add(
+                    new Bus(
+                        new Route("Manila", "Laoag"),
+                        new DateTime(2020, 7, 30, 8, 0, 0)));
+
+                var sut = buses.GetAvailable(
+                    new Route("Laoag", "Manila"),
+                    new DateTime(2020, 7, 31, 10, 0, 0));
+
+                sut.Should().BeEmpty();
+            }
+        }
+
     }
 }

@@ -2,7 +2,6 @@ using System;
 using Xunit;
 using FluentAssertions;
 using Moq;
-using Liner.Inventory;
 
 namespace Liner.Inventory.Tests
 {
@@ -34,7 +33,10 @@ namespace Liner.Inventory.Tests
             public void ReturnsMatch()
             {
                 var buses = new Buses();
-                buses.Add(new Bus(new Route("Manila", "Laoag")));
+                buses.Add(
+                    new Bus(
+                        new Route("Manila", "Laoag"),
+                        new DateTime(2020, 7, 31, 8, 0, 0)));
 
                 var repository = new Mock<IInventoryRepository>();
                 repository
@@ -56,7 +58,8 @@ namespace Liner.Inventory.Tests
             {
                 var buses = new Buses();
                 buses.Add(new Bus(
-                    route: new Route("Laoag", "Manila")));
+                    route: new Route("Laoag", "Manila"),
+                    schedule: new DateTime(2020, 7, 31, 8, 0, 0)));
 
                 var repository = new Mock<IInventoryRepository>();
                 repository
@@ -70,39 +73,32 @@ namespace Liner.Inventory.Tests
                     schedule: new DateTime(2020, 7, 31, 8, 0, 0),
                     paxCount: 1);
 
-                result.Should().HaveCount(1);
+                result.Should().BeEmpty();
             }
 
-        }
-
-        public class BusTests
-        {
-            public class Init_Should
+            [Fact]
+            public void ReturnsNone_WhenDateDoesNotMatch()
             {
-                [Fact]
-                public void RequireRoute()
-                {
-                    var bus = new Bus(
-                        new Route("Manila", "Laoag"));
+                var buses = new Buses();
+                buses.Add(new Bus(
+                    route: new Route("Manila", "Laoag"),
+                    schedule: new DateTime(2020, 7, 30, 8, 0, 0)));
 
-                    bus.Route.Origin.Should().Be("Manila");
-                    bus.Route.Destination.Should().Be("Laoag");
-                }
-            }
-        }
+                var repository = new Mock<IInventoryRepository>();
+                repository
+                    .Setup(r => r.Get(new DateTime(2020, 7, 31)))
+                    .Returns(() => buses);
 
-        public class RouteTests
-        {
-            public class Init_Should
-            {
-                [Fact]
-                public void Require_OriginDestination()
-                {
-                    var route = new Route("Manila", "Laoag");
-                    route.Origin.Should().Be("Manila");
-                    route.Destination.Should().Be("Manila");
-                }
+                var sut = new InventoryService(repository.Object);
+
+                var result = sut.Search(
+                    route: new Route("Manila", "Laoag"),
+                    schedule: new DateTime(2020, 7, 31, 8, 0, 0),
+                    paxCount: 1);
+
+                result.Should().BeEmpty();
             }
+
         }
 
     }

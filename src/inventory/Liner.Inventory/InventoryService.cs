@@ -15,7 +15,7 @@ namespace Liner.Inventory
         {
             var buses = _repository.Get(schedule.Date);
 
-            return buses;
+            return buses.GetAvailable(route, schedule);
         }
     }
 }
