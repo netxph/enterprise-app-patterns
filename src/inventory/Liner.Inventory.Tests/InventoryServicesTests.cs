@@ -2,6 +2,7 @@ using System;
 using Xunit;
 using FluentAssertions;
 using Liner.Inventory.Core;
+using Moq;
 
 namespace Liner.Inventory.Tests
 {
@@ -73,6 +74,35 @@ namespace Liner.Inventory.Tests
                 result.Should().BeEmpty();
             }
 
+        }
+
+        public class Hold_Should
+        {
+
+            [Fact]
+            public void ReduceSlots()
+            {
+                var builder = new InventoryServiceTestDataBuilder();
+                InventoryService sut = builder.UsingMock();
+
+                sut.Hold("L0820200731", 1);
+
+                Mock.Get(builder.Repository)
+                    .Verify(r => r.Update(
+                        It.Is<Bus>(b => b.Id.Equals("L0820200731") && b.Slots == 0)), 
+                        Times.Once());
+            }
+
+            [Fact]
+            public void ThrowError_WhenNoAvailableSlots()
+            {
+                var builder = new InventoryServiceTestDataBuilder();
+                InventoryService service = builder.UsingMock();
+
+                Action sut = () => service.Hold("L0820200731", 2);
+
+                sut.Should().Throw<ArgumentOutOfRangeException>();
+            }
         }
 
     }

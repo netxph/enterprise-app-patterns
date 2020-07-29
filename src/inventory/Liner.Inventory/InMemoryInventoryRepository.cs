@@ -44,9 +44,20 @@ namespace Liner.Inventory
             };
         }
 
-        public Buses Get(DateTime date)
+        public Buses GetByDate(DateTime date)
         {
             return new Buses(_memory.Where(b => b.Schedule.Date.Equals(date)));
+        }
+
+        public Bus GetById(string id)
+        {
+            return _memory.FirstOrDefault(b => b.Id.Equals(id));
+        }
+
+        public void Update(Bus bus)
+        {
+            _memory.RemoveAll(b => b.Id == bus.Id);
+            _memory.Add(bus);
         }
     }
 }

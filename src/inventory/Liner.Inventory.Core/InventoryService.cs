@@ -13,9 +13,17 @@ namespace Liner.Inventory.Core
 
         public Buses Search(Route route, DateTime schedule, int paxCount)
         {
-            var buses = _repository.Get(schedule.Date);
+            var buses = _repository.GetByDate(schedule.Date);
 
             return buses.GetAvailable(route, schedule, paxCount);
+        }
+
+        public void Hold(string busId, int paxCount)
+        {
+            var bus = _repository.GetById(busId);
+            bus.Reserve(paxCount);
+
+            _repository.Update(bus);
         }
     }
 }

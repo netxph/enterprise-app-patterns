@@ -35,6 +35,35 @@ namespace Liner.Inventory.Tests
 
             }
         }
+
+        public class Reserve_Should
+        {
+            [Fact]
+            public void ReduceSlots()
+            {
+                var bus = new Bus(
+                    route: new Route("Manila", "Laoag"),
+                    schedule: new DateTime(2020, 7, 31, 8, 0, 0),
+                    1);
+
+                bus.Reserve(1);
+                bus.Slots.Should().Be(0);
+            }
+
+            [Theory]
+            [InlineData(3)]
+            [InlineData(4)]
+            public void ThrowError_WhenNoSufficientSlots(int paxCount)
+            {
+                var bus = new Bus(
+                    route: new Route("Manila", "Laoag"),
+                    schedule: new DateTime(2020, 7, 31, 8, 0, 0),
+                    2);
+
+                Action sut = () => bus.Reserve(paxCount);
+                sut.Should().Throw<ArgumentOutOfRangeException>();
+            }
+        }
     }
 
 }

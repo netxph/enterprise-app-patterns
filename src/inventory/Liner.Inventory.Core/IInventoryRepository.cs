@@ -4,6 +4,8 @@ namespace Liner.Inventory.Core
 {
     public interface IInventoryRepository
     {
-        Buses Get(DateTime date);
+        Buses GetByDate(DateTime date);
+        void Update(Bus bus);
+        Bus GetById(string id);
     }
 }

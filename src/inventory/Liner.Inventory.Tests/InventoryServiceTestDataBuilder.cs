@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Liner.Inventory.Core;
 using Moq;
 
@@ -21,8 +22,12 @@ namespace Liner.Inventory.Tests
 
                 var repository = new Mock<IInventoryRepository>();
                 repository
-                    .Setup(r => r.Get(It.IsAny<DateTime>()))
+                    .Setup(r => r.GetByDate(It.IsAny<DateTime>()))
                     .Returns(() => buses);
+
+                repository
+                    .Setup(r => r.GetById("L0820200731"))
+                    .Returns(() => buses.First());
 
                 Repository = repository.Object;
 

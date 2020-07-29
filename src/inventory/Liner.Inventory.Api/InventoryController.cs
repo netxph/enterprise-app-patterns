@@ -5,7 +5,10 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace Liner.Inventory.Api
 {
@@ -41,7 +44,20 @@ namespace Liner.Inventory.Api
             }).ToList();
 
             return new JsonResult(results);
-            
+        }
+
+        [FunctionName("Inventory_Hold")]
+        public async Task<IActionResult> Hold(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "put", Route="inventory/hold")]
+            HttpRequest request)
+        {
+            string body = await new StreamReader(request.Body).ReadToEndAsync();
+
+            var hold = JsonSerializer.Deserialize<HoldRequest>(body);
+
+            _service.Hold(hold.Bus, hold.PaxCount);
+
+            return new NoContentResult();
         }
     }
 }
